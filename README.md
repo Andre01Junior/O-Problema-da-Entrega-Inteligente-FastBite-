@@ -1,1 +1,48 @@
-Estudo de Caso: O Problema da Entrega Inteligente (FastBite)Unidade Curricular: Estruturas de Dados e Análise de Algoritmos (0006963) Professor: Alexandre "Montanha" de Oliveira Estudante: [Seu Nome Aqui]1. Resumo do Desafio LogísticoO estudo de caso da FastBite descreve um desafio crítico de otimização logística: organizar a atribuição e o roteamento de entregas em um ambiente de alta demanda. O sistema precisa processar mais de 80.000 pedidos por dia e tomar decisões de rota em no máximo 2 segundos, para não comprometer a operação. O objetivo é definir qual entregador ficará com cada pedido e a sequência de coletas e entregas que minimize o tempo total, respeitando restrições como capacidade máxima de 3 pedidos por entregador e janelas de tempo para pedidos urgentes (menos de 20 minutos).2. Análise Técnica e ComplexidadeTecnicamente, trata-se de um problema NP-Completo, pois reúne características do Problema do Caixeiro Viajante (TSP) e do Problema de Roteamento de Veículos (VRP). Isso torna inviável buscar a solução ótima por força bruta, já que as combinações crescem exponencialmente conforme novos pedidos entram no sistema. Como ilustração, com apenas 50 pedidos e 20 entregadores — cenário comum em horários de pico —, a avaliação exaustiva de todas as soluções possíveis já foge totalmente do alcance prático dentro do limite de tempo disponível.3. Avaliação de Estratégias AlgorítmicasO documento avalia várias estratégias para enfrentar esse cenário:Abordagem Gulosa (Greedy): Métodos gulosos são rápidos e tomam decisões baseadas em escolhas locais imediatas (como escolher o ponto mais próximo), mas podem levar a rotas subótimas por não anteciparem o impacto global da solução.Programação Dinâmica (PD): Pode otimizar a rota de um entregador individualmente se a atribuição já estiver feita, porém exige um custo de memória e tempo proibitivo à medida que o número de paradas cresce, tornando-se impraticável para o processamento em tempo real.Divisão e Conquista: Esta técnica facilita o processamento ao segmentar a cidade em zonas geográficas ou quadrantes, mas complica o tratamento de entregas que atravessam as fronteiras entre esses setores.4. Solução de Engenharia e ConclusãoNa prática, a solução para a FastBite deve priorizar heurísticas eficientes em vez de perfeição matemática absoluta. A proposta de engenharia real para o sistema deve combinar:Particionamento: Divisão geográfica dos pedidos por região.Solução Inicial: Uso de uma heurística gulosa para gerar rotas rápidas.Refinamento Local: Etapa de melhoria (como trocar pedidos entre entregadores) para otimizar o resultado inicial.Limite Estrito: Interrupção do processamento assim que atingir o limite de tempo (2s).Essa abordagem busca um equilíbrio entre a qualidade do serviço e a viabilidade computacional. Em sistemas de larga escala, a melhor decisão técnica é aquela que entrega uma solução "suficientemente boa" dentro das restrições operacionais, reconhecendo que a busca pela solução ideal seria, na verdade, uma falha de engenharia dada a natureza do problema.
+# Estudo de Caso: O Problema da Entrega Inteligente (FastBite) 🚀
+
+Este repositório contém a análise técnica e a proposta de solução para o desafio logístico da plataforma **FastBite**, desenvolvido para a unidade curricular de Estruturas de Dados e Análise de Algoritmos.
+
+## 📋 Visão Geral do Problema
+A FastBite enfrenta um desafio de otimização logística em larga escala:
+* [cite_start]**Volume:** +80.000 pedidos/dia[cite: 9].
+* [cite_start]**Janela de Decisão:** Máximo de 2 segundos de processamento[cite: 31, 32].
+* [cite_start]**Objetivo:** Minimizar o tempo total de entrega, otimizando a atribuição de entregadores e o roteamento das coletas/entregas[cite: 38].
+
+---
+
+## 🛠️ Análise Técnica
+
+### 1. Classificação de Complexidade
+[cite_start]O problema é classificado como **NP-Completo**[cite: 52, 57]. Ele combina dois problemas clássicos da computação:
+* [cite_start]**TSP (Traveling Salesman Problem):** Roteamento otimizado de um único agente[cite: 46].
+* [cite_start]**VRP (Vehicle Routing Problem):** Gestão de múltiplos veículos com restrições de capacidade e tempo[cite: 47].
+
+> [cite_start]**Nota:** A solução por força bruta é inviável, pois o espaço de soluções cresce de forma explosiva (fatorial), tornando impossível a avaliação exaustiva em tempo real[cite: 42, 62].
+
+### 2. Estratégias Algorítmicas Avaliadas
+
+* [cite_start]**Abordagem Gulosa (Greedy):** Foca em escolhas locais imediatas (ex: ir ao ponto mais próximo)[cite: 71, 74]. [cite_start]É extremamente rápida, mas pode gerar rotas subótimas por não considerar o impacto global das decisões[cite: 75].
+* [cite_start]**Programação Dinâmica (PD):** Aplicável para otimizar a rota individual de um entregador[cite: 79, 80]. [cite_start]No entanto, possui alto custo de memória e tempo, tornando-se impraticável conforme o número de pedidos por entregador aumenta[cite: 82, 83].
+* [cite_start]**Divisão e Conquista:** Baseia-se na segmentação da cidade em zonas geográficas[cite: 86]. [cite_start]Embora facilite o processamento, apresenta dificuldades críticas na gestão de pedidos que cruzam as fronteiras entre setores[cite: 88].
+
+---
+
+## 💡 Proposta de Solução: Engenharia Real
+
+[cite_start]Para atender aos requisitos de produção, a solução proposta foca em **Heurísticas** — técnicas que entregam soluções "suficientemente boas" dentro do limite de tempo[cite: 95, 96].
+
+### Arquitetura da Solução:
+1.  [cite_start]**Particionamento Geográfico:** Divisão inicial dos pedidos por região para reduzir a complexidade[cite: 100].
+2.  [cite_start]**Heurística Gulosa Inicial:** Geração imediata de uma rota base viável[cite: 101].
+3.  [cite_start]**Refinamento Local:** Aplicação de algoritmos de troca (ex: troca de pedidos entre entregadores) para otimização contínua[cite: 102].
+4.  [cite_start]**Time-boxing:** Interrupção forçada do processamento aos 2 segundos para garantir a resposta em tempo real[cite: 103].
+
+---
+
+## 🎓 Identificação
+* [cite_start]**Disciplina:** Estruturas de Dados e Análise de Algoritmos (0006963) [cite: 4]
+* [cite_start]**Professor:** Alexandre "Montanha" de Oliveira [cite: 4]
+* [cite_start]**Nível:** Graduação - Preparatório A1 [cite: 5]
+
+---
+> [cite_start]*"A ciência da computação não é sobre computadores tanto quanto a astronomia não é sobre telescópios."* — Edsger W. Dijkstra [cite: 162, 163]
